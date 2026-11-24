@@ -1,0 +1,42 @@
+{
+  "title": "VirtualFCS-SysVal: Modelica library of a PEM fuel cell system",
+  "upload_type": "software",
+  "description": "<p>Modelica library with the PEM fuel cell system model of the publication \"A Coverage-Aware Validation Process for Physical Energy-System Models: Demonstration on an 80 kW Fuel Cell System in an Industrial Test Environment\". It is based on the development state 2.1.0-dev of the open-source library VirtualFCS after its release v2.0.0 (MIT license, Copyright (c) 2021 Virtual-FCS H2020) and is not an official VirtualFCS release. It contains the parameters of the second iteration, and a patch file sets those of the first iteration. The published model uses the default membrane parameters of Hahn (2023).</p>",
+  "creators": [
+    {
+      "name": "Winkler, Luis M.",
+      "orcid": "0009-0002-6033-7716",
+      "affiliation": "Zentrum für Sonnenenergie- und Wasserstoff-Forschung Baden-Württemberg (ZSW), Ulm, Germany; Chair of Electrical Energy Systems (EES), University of Bayreuth, Bayreuth, Germany; Institute for Sustainable Energy Systems (ISES), Munich University of Applied Sciences, Munich, Germany"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "language": "eng",
+  "version": "2.1.0-sysval",
+  "keywords": [
+    "PEM fuel cell system",
+    "model validation",
+    "system simulation",
+    "Modelica",
+    "OpenModelica"
+  ],
+  "contributors": [
+    {
+      "name": "Küppers, Laszlo",
+      "type": "Other",
+      "affiliation": "Zentrum für Sonnenenergie- und Wasserstoff-Forschung Baden-Württemberg (ZSW), Ulm, Germany"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.24310446",
+      "relation": "isSupplementTo",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "10.5281/zenodo.7552220",
+      "relation": "isDerivedFrom",
+      "resource_type": "software"
+    }
+  ]
+}

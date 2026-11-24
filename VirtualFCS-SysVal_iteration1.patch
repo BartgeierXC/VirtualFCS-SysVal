@@ -1,0 +1,80 @@
+diff --git a/VirtualFCS/Electrochemical/Hydrogen/FuelCellStack.mo b/VirtualFCS/Electrochemical/Hydrogen/FuelCellStack.mo
+index d8b2483..d47c876 100644
+--- a/VirtualFCS/Electrochemical/Hydrogen/FuelCellStack.mo
++++ b/VirtualFCS/Electrochemical/Hydrogen/FuelCellStack.mo
+@@ -138,7 +138,7 @@ model FuelCellStack
+     Placement(transformation(origin = {90, 30}, extent = {{-10, 10}, {10, -10}}, rotation = -90)));
+   Fluid.FcWaterSource waterSrcCa(redeclare package Medium = Cathode_Medium, T_b(fixed = false, displayUnit = "K"), T_a(fixed = false, displayUnit = "K"), dp(displayUnit = "Pa") = 1, dT_out = 0) annotation(
+     Placement(transformation(origin = {50, 10}, extent = {{10, 10}, {-10, -10}})));
+-  VirtualFCS.Fluid.FlowResistanceTemp h2Resistance(redeclare package Medium = Anode_Medium, K_l = 1.28024e4, K_t = 1.24879e5, K_exp = 2.149110) annotation(
++  VirtualFCS.Fluid.FlowResistanceTemp h2Resistance(redeclare package Medium = Anode_Medium, K_l = 1.936795e3, K_t = 1.889222e4, K_exp = 2.149110) annotation(
+     Placement(transformation(origin = {-120, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+   Modelica.Thermal.FluidHeatFlow.Sensors.TemperatureSensor temperatureCoolantOut(medium = Coolant_Medium) annotation(
+     Placement(transformation(origin = {100, -50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+diff --git a/VirtualFCS/Fluid/PumpElectricDCFluidHFPoly.mo b/VirtualFCS/Fluid/PumpElectricDCFluidHFPoly.mo
+index 876b230..6c2df8e 100644
+--- a/VirtualFCS/Fluid/PumpElectricDCFluidHFPoly.mo
++++ b/VirtualFCS/Fluid/PumpElectricDCFluidHFPoly.mo
+@@ -22,10 +22,10 @@ model PumpElectricDCFluidHFPoly
+   // Other
+   parameter Modelica.Units.SI.VolumeFlowRate vflow_max(displayUnit = "m3/h") = 16.8/3600 "Maximum volume flow";
+   parameter Modelica.Units.NonSI.AngularVelocity_rpm w_max = 2900;
+-  parameter Modelica.Units.SI.Power P_2 = 2058.3 "Quadratic power function factor.";
+-  parameter Modelica.Units.SI.Power P_1 = -783.1 "Linear power function factor.";
+-  parameter Modelica.Units.SI.Power P_0 = 239.1 "Constant power function factor.";
+-  parameter Real p_con = 0.19 "Constant power function coefficient. Pump power is constant below p_con.";
++  parameter Modelica.Units.SI.Power P_2 = 1480.8 "Quadratic power function factor.";
++  parameter Modelica.Units.SI.Power P_1 = -264.1 "Linear power function factor.";
++  parameter Modelica.Units.SI.Power P_0 = 154.4 "Constant power function factor.";
++  parameter Real p_con = 0.17 "Constant power function coefficient. Pump power is constant below p_con.";
+   parameter Modelica.Units.SI.Time t_rampup = 3 "Time for the speed command to ramp from 0 to 1";
+   parameter Modelica.Units.SI.Mass m_coolant = 1 "Mass of coolant in pump";
+   // Power & Efficiency
+diff --git a/VirtualFCS/SubSystems/Air/SubSystemAirCMP.mo b/VirtualFCS/SubSystems/Air/SubSystemAirCMP.mo
+index 07c87e6..74d1473 100644
+--- a/VirtualFCS/SubSystems/Air/SubSystemAirCMP.mo
++++ b/VirtualFCS/SubSystems/Air/SubSystemAirCMP.mo
+@@ -13,7 +13,7 @@ model SubSystemAirCMP
+   parameter Modelica.Units.SI.MassFlowRate mflow_nominal = 0.1;
+   parameter Modelica.Units.SI.Time t_hum_valve = 25 "Opening time constant humidifier valve [s]";
+   parameter Real Kv_p_valve(unit = "m3/h") = 28 "Kv (metric) flow coefficient [m3/h]";
+-  parameter Real Fxt_full_p_valve = 0.473 "Critical choke coefficient";
++  parameter Real Fxt_full_p_valve = 0.5 "Critical choke coefficient";
+   parameter Real Kv_hum_valve(unit = "m3/h") = 193.5 "Kv (metric) flow coefficient [m3/h]";
+   parameter Modelica.Units.SI.MassFraction X_w = Medium.massFraction_pTphi(system.p_ambient, system.T_ambient, 0.2);
+   parameter Modelica.Units.SI.ThermalConductance k_th = 182.6 "Thermal conductance heat exchanger.";
+@@ -48,7 +48,7 @@ model SubSystemAirCMP
+   // Machines
+   //VirtualFCS.Fluid.CompressorLuT compressor(mf_max = 1.1*subSystemAirControl.stoic_Air_min*j_FC_lim*A_FC_surf*(0.02897/(96485*4*0.21)*N_FC_stack)) annotation(
+   //Placement(visible = true, transformation(origin = {12, 18}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
+-  Fluid.CompressorPoly cmp(eta_el = 0.881, redeclare package Medium = Medium, c_Mf = [1.23343e-10, -8.72743e-11, -2.86475e-10, -5.28596e-11; 3.32314e-06, -5.57495e-06, -5.94695e-07, 0; 6.63531e-11, 8.07634e-11, 0, 0; -1.1223e-15, 0, 0, 0], c_P = [2.85121e-06, -7.4624e-07, -4.51327e-06, -2.2005e-06; 0.0703784, -0.0840068, -0.031413, 0; -1.43825e-07, 2.20965e-06, 0, 0; -4.75931e-12, 0, 0, 0]) annotation(
++  Fluid.CompressorPoly cmp(redeclare package Medium = Medium, c_Mf = [1.23343e-10, -8.72743e-11, -2.86475e-10, -5.28596e-11; 3.32314e-06, -5.57495e-06, -5.94695e-07, 0; 6.63531e-11, 8.07634e-11, 0, 0; -1.1223e-15, 0, 0, 0], c_P = [2.85121e-06, -7.4624e-07, -4.51327e-06, -2.2005e-06; 0.0703784, -0.0840068, -0.031413, 0; -1.43825e-07, 2.20965e-06, 0, 0; -4.75931e-12, 0, 0, 0]) annotation(
+     Placement(visible = true, transformation(origin = {12, 18}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
+   // Sensors
+   // Valves
+diff --git a/VirtualFCS/SubSystems/Air/SubSystemAirMFC.mo b/VirtualFCS/SubSystems/Air/SubSystemAirMFC.mo
+index fdb4fe4..9f7c296 100644
+--- a/VirtualFCS/SubSystems/Air/SubSystemAirMFC.mo
++++ b/VirtualFCS/SubSystems/Air/SubSystemAirMFC.mo
+@@ -13,7 +13,7 @@ model SubSystemAirMFC
+   parameter Modelica.Units.SI.MassFlowRate mflow_nominal = 0.1;
+   parameter Modelica.Units.SI.Time t_hum_valve = 25 "Opening time constant humidifier valve [s]";
+   parameter Real Kv_p_valve(unit = "m3/h") = 28 "Kv (metric) flow coefficient [m3/h]";
+-  parameter Real Fxt_full_p_valve = 0.473 "Critical choke coefficient";
++  parameter Real Fxt_full_p_valve = 0.5 "Critical choke coefficient";
+   parameter Real Kv_hum_valve(unit = "m3/h") = 193.5 "Kv (metric) flow coefficient [m3/h]";
+   parameter Modelica.Units.SI.MassFraction X_w = Medium.massFraction_pTphi(system.p_ambient, system.T_ambient, 0.2);
+   parameter Modelica.Units.SI.ThermalConductance k_th = 300 "Thermal conductance heat exchanger.";
+diff --git a/VirtualFCS/SubSystems/Hydrogen/SubSystemHydrogenTST.mo b/VirtualFCS/SubSystems/Hydrogen/SubSystemHydrogenTST.mo
+index fde5b7d..7fee047 100644
+--- a/VirtualFCS/SubSystems/Hydrogen/SubSystemHydrogenTST.mo
++++ b/VirtualFCS/SubSystems/Hydrogen/SubSystemHydrogenTST.mo
+@@ -42,7 +42,7 @@ model SubSystemHydrogenTST
+     Placement(transformation(origin = {-70, 74}, extent = {{-10, -10}, {10, 10}})));
+   Modelica.Blocks.Continuous.FirstOrder firstOrderPT1(T = 1) annotation(
+     Placement(transformation(origin = {-106, 82}, extent = {{-6, -6}, {6, 6}})));
+-  Fluid.ARBPoly arb(redeclare package Medium = Anode_Medium, c_Mf = [-8.99586e-06, -2.97628e-09, 1.23047e-14; 1.53861e-07, 4.10077e-14, 0; 1.05211e-12, 0, 0], pressureRatioMode = false, P_max = 1e3, mfMin = system.m_flow_small/100, c_P = [2.78307e-05, 0.00551895, -3.57774e-07, 4.15845e-12; 0.0299617, 4.43868e-06, 1.89174e-11, 0; -1.50602e-05, -6.12058e-10, 0, 0; 4.38687e-09, 0, 0, 0]) annotation(
++  Fluid.ARBPoly arb(redeclare package Medium = Anode_Medium, c_Mf = [-8.99586e-06, -2.97628e-09, 1.23047e-14; 1.53861e-07, 4.10077e-14, 0; 1.05211e-12, 0, 0], pressureRatioMode = false, P_max = 1e3, mfMin = system.m_flow_small/100, c_P = [2.92232e-05, 0.0057951, -3.75676e-07, 4.36652e-12; 0.0314609, 4.66078e-06, 1.9864e-11, 0; -1.58138e-05, -6.42683e-10, 0, 0; 4.60637e-09, 0, 0, 0]) annotation(
+     Placement(transformation(origin = {26, 6}, extent = {{-14, -14}, {14, 14}}, rotation = 90)));
+ equation
+ //*** DEFINE CONNECTIONS ***//
